@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jimmy Temporao, Senior Product Manager</title>
+<meta name="description" content="Senior Product Manager at Radio France. Building the product millions use to listen to radio and podcasts. 103M monthly streams." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<script>
+  // Theme init (before paint to avoid flash)
+  (function() {
+    try {
+      var saved = localStorage.getItem('theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var theme = saved || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch(e) {}
+  })();
+</script>
+<style>
+  :root {
+    --bg: #F8F7F3;
+    --bg-alt: #F2F0EA;
+    --bg-contrast: #111111;
+    --ink: #111111;
+    --ink-soft: #2A2A2A;
+    --ink-mute: #6E6B65;
+    --ink-contrast: #F8F7F3;
+    --line: #D8D5CE;
+    --line-contrast: rgba(248, 247, 243, 0.18);
+    --accent: #D9381E;
+    --max-width: 1280px;
+  }
+
+  [data-theme="dark"] {
+    --bg: #0F0E0C;
+    --bg-alt: #1A1814;
+    --bg-contrast: #050504;
+    --ink: #F2EFE8;
+    --ink-soft: #D8D4CA;
+    --ink-mute: #888479;
+    --ink-contrast: #F2EFE8;
+    --line: #2C2925;
+    --line-contrast: rgba(242, 239, 232, 0.15);
+    --accent: #E85A3D;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Geist', system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  ::selection { background: var(--accent); color: var(--bg); }
+
+  /* ===== Now Playing ===== */
+  .now-playing {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px 8px 12px;
+    background: var(--ink);
+    color: var(--bg);
+    border-radius: 100px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+  .now-playing .dot {
+    width: 7px; height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.35; transform: scale(0.85); }
+  }
+  @media (max-width: 640px) { .now-playing { display: none; } }
+
+  /* ===== Nav ===== */
+  nav {
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+  nav .logo {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  nav .links {
+    display: none;
+    gap: 24px;
+    align-items: center;
+    padding-left: 28px;
+    border-left: 1px solid var(--line);
+  }
+  @media (min-width: 768px) { nav .links { display: flex; } }
+  nav .links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+    transition: color 0.2s ease;
+  }
+  nav .links a:hover { color: var(--accent); }
+  nav .links a::before {
+    content: attr(data-num);
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-mute);
+    margin-right: 6px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ===== Theme toggle ===== */
+  .theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 200px;
+    z-index: 101;
+    width: 38px;
+    height: 38px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
+  }
+  .theme-toggle:hover {
+    transform: rotate(15deg);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  @media (max-width: 640px) { .theme-toggle { right: 24px; } }
+  .theme-toggle svg { width: 16px; height: 16px; }
+  .theme-toggle .moon { display: none; }
+  .theme-toggle .sun { display: block; }
+  [data-theme="dark"] .theme-toggle .moon { display: block; }
+  [data-theme="dark"] .theme-toggle .sun { display: none; }
+
+  /* ===== Container ===== */
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  @media (min-width: 768px) { .container { padding: 0 56px; } }
+
+  section { padding: 120px 0; position: relative; }
+  @media (min-width: 768px) { section { padding: 180px 0; } }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 56px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+
+  /* ===== HERO ===== */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 140px 0 80px;
+  }
+  .hero-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(56px, 13vw, 200px);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    margin-bottom: 32px;
+  }
+  .hero-name .italic { font-style: italic; font-weight: 300; }
+
+  .hero-tagline {
+    max-width: 720px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(20px, 2.6vw, 30px);
+    line-height: 1.35;
+    color: var(--ink-soft);
+    margin-bottom: 64px;
+  }
+
+  .hero-meta {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+  @media (min-width: 768px) {
+    .hero-meta { grid-template-columns: repeat(4, 1fr); gap: 48px; }
+  }
+  .meta-item .label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 10px;
+  }
+  .meta-item .value {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .meta-item .value .small {
+    font-size: 14px;
+    color: var(--ink-mute);
+    margin-left: 6px;
+  }
+
+  /* ===== ABOUT ===== */
+  #about { background: var(--bg-alt); }
+
+  .manifesto {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(32px, 5.5vw, 64px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    max-width: 1000px;
+    margin-bottom: 72px;
+  }
+  .manifesto .accent { color: var(--accent); font-style: italic; }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  @media (min-width: 900px) {
+    .about-grid { grid-template-columns: 1.2fr 1fr; gap: 80px; }
+  }
+  .about-text p {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+  }
+  .about-text p:last-child { margin-bottom: 0; }
+
+  .stat-block { border-top: 1px solid var(--line); padding-top: 32px; }
+  .stat-block .stat { margin-bottom: 36px; }
+  .stat-block .stat:last-child { margin-bottom: 0; }
+  .stat .number {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(48px, 7vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .stat .number .unit {
+    font-size: 0.5em;
+    color: var(--accent);
+    font-style: italic;
+    font-weight: 300;
+    margin-left: 4px;
+  }
+  .stat .desc {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+
+  /* ===== Timeline ===== */
+  .timeline { margin-top: 96px; border-top: 1px solid var(--line); }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+    transition: padding 0.3s ease;
+    cursor: default;
+  }
+  @media (min-width: 768px) {
+    .timeline-item {
+      grid-template-columns: 110px 1fr 1.4fr;
+      gap: 32px;
+      align-items: baseline;
+    }
+  }
+  .timeline-item:hover { padding-left: 8px; }
+  .timeline-item .period {
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-mute);
+    letter-spacing: 0.04em;
+  }
+  .timeline-item .role {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .timeline-item .role .company {
+    color: var(--ink-mute);
+    font-style: italic;
+    font-weight: 300;
+  }
+  .timeline-item .summary {
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+
+  /* ===== WORK ===== */
+  #work .case-list { display: grid; gap: 80px; }
+  .case {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-top: 56px;
+    border-top: 1px solid var(--line);
+    position: relative;
+  }
+  @media (min-width: 900px) {
+    .case { grid-template-columns: 80px 1fr 1.4fr; gap: 48px; }
+  }
+  .case-number {
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+  }
+  .case-meta .tag {
+    display: inline-block;
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 16px;
+  }
+  .case-meta h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(28px, 3.4vw, 40px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .case-meta .where {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink-mute);
+  }
+  .case-body p {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+  }
+  .case-body .results {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px dashed var(--line);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 24px;
+  }
+  @media (min-width: 600px) {
+    .case-body .results { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+  }
+  .result .value {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .result .value .accent { color: var(--accent); }
+  .result .label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+
+  /* ===== TEACHING ===== */
+  #teaching { background: var(--bg-alt); }
+
+  .teaching-intro {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+    margin-bottom: 80px;
+  }
+  @media (min-width: 900px) {
+    .teaching-intro {
+      grid-template-columns: 1.4fr 1fr;
+      gap: 80px;
+      align-items: end;
+    }
+  }
+  .teaching-headline {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .teaching-headline .accent { color: var(--accent); }
+  .teaching-context {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    padding-bottom: 6px;
+  }
+
+  .schools {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-bottom: 80px;
+  }
+  @media (min-width: 700px) { .schools { grid-template-columns: repeat(3, 1fr); } }
+
+  .school {
+    padding: 32px 28px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.4s ease;
+    cursor: default;
+  }
+  .school:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+  }
+  .school .school-tag {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .school .school-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 32px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 8px;
+    line-height: 1.05;
+  }
+  .school .school-meta {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-mute);
+    margin-bottom: 20px;
+  }
+  .school .school-desc {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+
+  .teaching-topics-wrap {
+    border-top: 1px solid var(--line);
+    padding-top: 56px;
+  }
+  .teaching-topics-wrap h4 {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    font-weight: 400;
+    margin-bottom: 32px;
+  }
+  .topics {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  @media (min-width: 768px) {
+    .topics { grid-template-columns: repeat(2, 1fr); column-gap: 80px; }
+  }
+  .topic {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .topic-num {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-mute);
+  }
+  .topic-name {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .topic-name .sub {
+    display: block;
+    font-family: 'Geist', sans-serif;
+    font-style: normal;
+    font-size: 13px;
+    color: var(--ink-mute);
+    margin-top: 4px;
+    letter-spacing: 0;
+  }
+
+  /* ===== CONTACT ===== */
+  #contact {
+    background: var(--bg-contrast);
+    color: var(--ink-contrast);
+    padding: 140px 0;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+  [data-theme="dark"] #contact { color: var(--ink); }
+
+  #contact .section-label { color: rgba(248, 247, 243, 0.5); }
+  [data-theme="dark"] #contact .section-label { color: var(--ink-mute); }
+  #contact .section-label::after { background: var(--line-contrast); }
+
+  .contact-headline {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(40px, 6vw, 84px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin-bottom: 64px;
+    max-width: 900px;
+  }
+  .contact-headline .underline {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 3px;
+    text-underline-offset: 8px;
+  }
+
+  .contact-links {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    border-top: 1px solid var(--line-contrast);
+    margin-bottom: 80px;
+  }
+  @media (min-width: 768px) {
+    .contact-links { grid-template-columns: repeat(3, 1fr); }
+    .contact-links > a + a { border-left: 1px solid var(--line-contrast); }
+  }
+  .contact-links a {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 28px 0;
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid var(--line-contrast);
+    transition: padding 0.25s ease, color 0.25s ease;
+  }
+  @media (min-width: 768px) {
+    .contact-links a { padding: 28px 28px; border-bottom: none; }
+    .contact-links a:first-child { padding-left: 0; }
+  }
+  .contact-links a:hover { padding-left: 14px; color: var(--accent); }
+  @media (min-width: 768px) {
+    .contact-links a:hover { padding-left: 42px; }
+    .contact-links a:first-child:hover { padding-left: 14px; }
+  }
+  .contact-links .label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(248, 247, 243, 0.45);
+  }
+  [data-theme="dark"] .contact-links .label { color: var(--ink-mute); }
+  .contact-links .value {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  footer {
+    padding-top: 80px;
+    border-top: 1px solid var(--line-contrast);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: rgba(248, 247, 243, 0.5);
+  }
+  [data-theme="dark"] footer { color: var(--ink-mute); }
+  @media (min-width: 768px) {
+    footer { flex-direction: row; justify-content: space-between; align-items: center; }
+  }
+
+  /* ===== Waveform ===== */
+  .waveform {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    height: 14px;
+    margin-left: 12px;
+    vertical-align: middle;
+  }
+  .waveform span {
+    display: block;
+    width: 2px;
+    background: var(--accent);
+    border-radius: 1px;
+    animation: wave 1.4s ease-in-out infinite;
+  }
+  .waveform span:nth-child(1) { height: 40%; animation-delay: 0s; }
+  .waveform span:nth-child(2) { height: 80%; animation-delay: 0.15s; }
+  .waveform span:nth-child(3) { height: 60%; animation-delay: 0.3s; }
+  .waveform span:nth-child(4) { height: 100%; animation-delay: 0.45s; }
+  .waveform span:nth-child(5) { height: 50%; animation-delay: 0.6s; }
+  @keyframes wave {
+    0%, 100% { transform: scaleY(0.5); }
+    50% { transform: scaleY(1); }
+  }
+
+  /* ===== Reveal ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  .reveal[data-delay="1"] { transition-delay: 0.08s; }
+  .reveal[data-delay="2"] { transition-delay: 0.16s; }
+  .reveal[data-delay="3"] { transition-delay: 0.24s; }
+  .reveal[data-delay="4"] { transition-delay: 0.32s; }
+</style>
+</head>
+<body>
+
+<!-- Now Playing -->
+<div class="now-playing">
+  <span class="dot"></span>
+  <span>Now playing · Paris</span>
+</div>
+
+<!-- Theme Toggle -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="4"/>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+  </svg>
+  <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </svg>
+</button>
+
+<!-- Navigation -->
+<nav>
+  <a href="#hero" class="logo">JT</a>
+  <div class="links">
+    <a href="#about" data-num="01">About</a>
+    <a href="#work" data-num="02">Work</a>
+    <a href="#teaching" data-num="03">Teaching</a>
+    <a href="#contact" data-num="04">Contact</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="container">
+    <h1 class="hero-name reveal">
+      Jimmy<br />
+      <span class="italic">Temporao</span>
+    </h1>
+    <p class="hero-tagline reveal" data-delay="1">
+      Senior Product Manager building the product millions of listeners turn to every morning, every commute, every evening.
+      <span class="waveform" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>
+    </p>
+
+    <div class="hero-meta">
+      <div class="meta-item reveal" data-delay="1">
+        <div class="label">Currently</div>
+        <div class="value">Radio France <span class="small">/ Paris</span></div>
+      </div>
+      <div class="meta-item reveal" data-delay="2">
+        <div class="label">Scale</div>
+        <div class="value">103M <span class="small">monthly streams</span></div>
+      </div>
+      <div class="meta-item reveal" data-delay="3">
+        <div class="label">Users</div>
+        <div class="value">10M+ <span class="small">across web &amp; mobile</span></div>
+      </div>
+      <div class="meta-item reveal" data-delay="4">
+        <div class="label">Languages</div>
+        <div class="value">FR · PT <span class="small">EN · ES</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section id="about">
+  <div class="container">
+    <div class="section-label reveal">01 · About</div>
+
+    <h2 class="manifesto reveal" data-delay="1">
+      Every day, <span class="accent">millions of listeners</span> press play on the products I help build.
+    </h2>
+
+    <div class="about-grid">
+      <div class="about-text reveal" data-delay="2">
+        <p>
+          I'm a Senior Product Manager based in Paris, currently leading product strategy for Radio France's website and mobile app, serving over 10 million users and generating 103 million monthly streams. These are all-time audience records for the group.
+        </p>
+        <p>
+          Over the past six years, I've shipped consumer products at scale across France, the UK, and Canada. From the redesign of the Radio France mobile app to the digital subscription launch for Le Journal du Dimanche and Paris Match, my work is grounded in user-centered discovery, data-driven decisions, and tight cross-functional execution.
+        </p>
+        <p>
+          I also teach Product Management as a guest lecturer at EFREI, YNOV, and IIM in Paris.
+        </p>
+        <p>
+          Outside product: former semi-professional goalkeeper (Paris FC and Paris Saint-Germain academies, professional contract at Bangor City FC), FIFA-licensed agent, and long-distance runner training for the Six Super Halves.
+        </p>
+      </div>
+
+      <div class="stat-block reveal" data-delay="3">
+        <div class="stat">
+          <div class="number">103M<span class="unit">streams</span></div>
+          <div class="desc">Monthly · all-time record</div>
+        </div>
+        <div class="stat">
+          <div class="number">+66<span class="unit">%</span></div>
+          <div class="desc">App streams after redesign</div>
+        </div>
+        <div class="stat">
+          <div class="number">4.8<span class="unit">★</span></div>
+          <div class="desc">App Store rating · iOS</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="period">2023 — Now</div>
+        <div class="role">Senior Product Manager <span class="company">/ Radio France</span></div>
+        <div class="summary">Core Platform, Web &amp; Mobile. 10M+ users, 103M monthly streams, all-time audience records. Managing a team of 3 Product Owners.</div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="period">2021 — 2023</div>
+        <div class="role">Product Manager <span class="company">/ Radio France</span></div>
+        <div class="summary">Designed and launched a new editorial CMS used by 3,000+ journalists across the group's websites and mobile app.</div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="period">2019 — 2021</div>
+        <div class="role">Product Manager, Subscriptions <span class="company">/ Lagardère</span></div>
+        <div class="summary">Built the first digital subscription product for Le Journal du Dimanche and Paris Match. 20K+ newsletter sign-ups, 8K+ paying subs.</div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="period">2018 — 2019</div>
+        <div class="role">R&amp;D Innovation PM <span class="company">/ Radio-Canada</span></div>
+        <div class="summary">Voice products (Alexa, Google Assistant), early generative AI for newsrooms, and audio transcription at scale.</div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="period">2017 — 2018</div>
+        <div class="role">Product Owner, FIP &amp; Mouv' <span class="company">/ Radio France</span></div>
+        <div class="summary">First Product role. Owned the backlog and agile delivery for two flagship stations; led graphic redesign and chatbot launch.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WORK ===== -->
+<section id="work">
+  <div class="container">
+    <div class="section-label reveal">02 · Selected work</div>
+
+    <div class="case-list">
+      <article class="case">
+        <div class="case-number reveal">01</div>
+        <div class="case-meta reveal" data-delay="1">
+          <span class="tag">Mobile · 2024</span>
+          <h3>Redesigning the Radio France mobile app from the ground up.</h3>
+          <p class="where">Radio France · Released August 2024</p>
+        </div>
+        <div class="case-body reveal" data-delay="2">
+          <p>
+            Led the end-to-end redesign of the Radio France mobile app, the listening companion for 7 stations and millions of daily users. The work spanned product strategy, navigation rethink, listening experience, and store positioning, alongside the rollout of a Backend-for-Frontend architecture co-designed with the API team.
+          </p>
+          <p>
+            The redesign reframed listening as a daily ritual rather than a list of stations, and rebuilt the foundations to scale across web and mobile from one shared design language.
+          </p>
+          <div class="results">
+            <div class="result"><div class="value">50M → <span class="accent">83M</span></div><div class="label">Monthly streams</div></div>
+            <div class="result"><div class="value"><span class="accent">+66%</span></div><div class="label">Growth</div></div>
+            <div class="result"><div class="value">3.9 → <span class="accent">4.7</span></div><div class="label">Android rating</div></div>
+            <div class="result"><div class="value"><span class="accent">4.8</span></div><div class="label">iOS rating</div></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="case">
+        <div class="case-number reveal">02</div>
+        <div class="case-meta reveal" data-delay="1">
+          <span class="tag">Web · 2026</span>
+          <h3>Unifying web and app on a single design system.</h3>
+          <p class="where">Radio France · Released March 2026</p>
+        </div>
+        <div class="case-body reveal" data-delay="2">
+          <p>
+            Led the redesign of the Radio France website on a unified design system shared with the mobile app, one visual language, one component library, one experience across surfaces. The goal was to remove the cognitive cost of switching between web and mobile for the same listener.
+          </p>
+          <p>
+            The launch leveraged the same BFF architecture deployed for the app, accelerating delivery and creating a foundation for future product work across the entire ecosystem.
+          </p>
+          <div class="results">
+            <div class="result"><div class="value"><span class="accent">+30%</span></div><div class="label">Visits in 3 months</div></div>
+            <div class="result"><div class="value">20M</div><div class="label">Monthly streams · web</div></div>
+            <div class="result"><div class="value">1</div><div class="label">Shared design system</div></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="case">
+        <div class="case-number reveal">03</div>
+        <div class="case-meta reveal" data-delay="1">
+          <span class="tag">Subscription · 2019—2021</span>
+          <h3>Building the first digital subscription product for two iconic news brands.</h3>
+          <p class="where">Lagardère · Le Journal du Dimanche &amp; Paris Match</p>
+        </div>
+        <div class="case-body reveal" data-delay="2">
+          <p>
+            Designed and launched the first end-to-end digital subscription product for Le Journal du Dimanche and Paris Match: pricing tiers, paywall logic, conversion funnels, and the full path from free reader to paying subscriber.
+          </p>
+          <p>
+            The internal narrative was that print readers wouldn't pay digitally. The data from comparable European publishers said otherwise. The gap wasn't appetite, it was the absence of a credible product offer.
+          </p>
+          <div class="results">
+            <div class="result"><div class="value"><span class="accent">8,000+</span></div><div class="label">Paying digital subs</div></div>
+            <div class="result"><div class="value">20,000+</div><div class="label">Newsletter sign-ups</div></div>
+            <div class="result"><div class="value">2</div><div class="label">National titles</div></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TEACHING ===== -->
+<section id="teaching">
+  <div class="container">
+    <div class="section-label reveal">03 · Teaching</div>
+
+    <div class="teaching-intro">
+      <h2 class="teaching-headline reveal" data-delay="1">
+        Teaching Product Management to the <span class="accent">next generation</span> of builders.
+      </h2>
+      <p class="teaching-context reveal" data-delay="2">
+        Guest lecturer in three of Paris's leading digital and engineering schools. Sharing what works in the trenches, not what reads well in a textbook.
+      </p>
+    </div>
+
+    <div class="schools">
+      <div class="school reveal" data-delay="1">
+        <div class="school-tag">Engineering</div>
+        <div class="school-name">EFREI</div>
+        <div class="school-meta">Paris, France</div>
+        <div class="school-desc">Product strategy and discovery for engineering students transitioning into tech roles.</div>
+      </div>
+      <div class="school reveal" data-delay="2">
+        <div class="school-tag">Digital</div>
+        <div class="school-name">YNOV</div>
+        <div class="school-meta">Paris, France</div>
+        <div class="school-desc">Hands-on product management modules covering agile delivery and the full product lifecycle.</div>
+      </div>
+      <div class="school reveal" data-delay="3">
+        <div class="school-tag">Innovation</div>
+        <div class="school-name">IIM</div>
+        <div class="school-meta">Paris, France</div>
+        <div class="school-desc">Sessions on product vision, roadmap definition, and how to align cross-functional teams.</div>
+      </div>
+    </div>
+
+    <div class="teaching-topics-wrap reveal">
+      <h4>What I teach</h4>
+      <div class="topics">
+        <div class="topic">
+          <div class="topic-num">01</div>
+          <div class="topic-name">Product Strategy<span class="sub">Vision, positioning, and long-term direction</span></div>
+        </div>
+        <div class="topic">
+          <div class="topic-num">02</div>
+          <div class="topic-name">Product Discovery<span class="sub">User research, interviews, hypothesis testing</span></div>
+        </div>
+        <div class="topic">
+          <div class="topic-num">03</div>
+          <div class="topic-name">Agile Delivery<span class="sub">Scrum, sprints, backlog management, velocity</span></div>
+        </div>
+        <div class="topic">
+          <div class="topic-num">04</div>
+          <div class="topic-name">Roadmap &amp; OKRs<span class="sub">Prioritization, outcome-driven planning</span></div>
+        </div>
+        <div class="topic">
+          <div class="topic-num">05</div>
+          <div class="topic-name">Stakeholder Management<span class="sub">Aligning engineering, design, business, leadership</span></div>
+        </div>
+        <div class="topic">
+          <div class="topic-num">06</div>
+          <div class="topic-name">Data-Driven Decisions<span class="sub">KPIs, A/B testing, analytics in practice</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label reveal">04 · Contact</div>
+
+    <h2 class="contact-headline reveal" data-delay="1">
+      Working on a product millions will press play on? <span class="underline">Let's talk.</span>
+    </h2>
+
+    <div class="contact-links">
+      <a href="mailto:jimmy.temporao@gmail.com" class="reveal" data-delay="2">
+        <span>
+          <div class="label">Email</div>
+          <div class="value">jimmy.temporao@gmail.com</div>
+        </span>
+        <span>→</span>
+      </a>
+      <a href="https://www.linkedin.com/in/jimmy-temporao/" target="_blank" rel="noopener" class="reveal" data-delay="3">
+        <span>
+          <div class="label">LinkedIn</div>
+          <div class="value">/in/jimmy-temporao</div>
+        </span>
+        <span>→</span>
+      </a>
+      <a href="tel:+33664729508" class="reveal" data-delay="4">
+        <span>
+          <div class="label">Phone</div>
+          <div class="value">+33 6 64 72 95 08</div>
+        </span>
+        <span>→</span>
+      </a>
+    </div>
+
+    <footer>
+      <div>© 2026 Jimmy Temporao · Paris, France</div>
+      <div>
+        Built with care
+        <span class="waveform" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>
+      </div>
+    </footer>
+  </div>
+</section>
+
+<script>
+  // Reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Parallax on hero name
+  const heroName = document.querySelector('.hero-name');
+  if (heroName) {
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      if (scrolled < window.innerHeight) {
+        heroName.style.transform = `translateY(${scrolled * 0.15}px)`;
+      }
+    }, { passive: true });
+  }
+
+  // Theme toggle
+  const themeToggle = document.getElementById('themeToggle');
+  themeToggle.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch(e) {}
+  });
+</script>
+
+</body>
+</html>
