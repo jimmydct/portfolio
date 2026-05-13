@@ -613,8 +613,13 @@
     margin-bottom: 80px;
   }
   @media (min-width: 768px) {
-    .contact-links { grid-template-columns: repeat(3, 1fr); }
+    .contact-links { grid-template-columns: repeat(2, 1fr); }
     .contact-links > a + a { border-left: 1px solid var(--line-contrast); }
+    .contact-links > a:nth-child(3) { border-left: none; }
+  }
+  @media (min-width: 1024px) {
+    .contact-links { grid-template-columns: repeat(4, 1fr); }
+    .contact-links > a:nth-child(3) { border-left: 1px solid var(--line-contrast); }
   }
   .contact-links a {
     display: flex;
@@ -782,7 +787,7 @@
     <div class="about-grid">
       <div class="about-text reveal" data-delay="2">
         <p>
-          I'm a Senior Product Manager based in Paris, currently leading product strategy for Radio France's website and mobile app, serving over 10 million users and generating 103 million monthly streams. These are all-time audience records for the group.
+          I'm a Senior Product Manager based in Paris, currently leading product strategy for Radio France's website and mobile app, serving over 10 million users and generating 100M+ monthly streams. These are all-time audience records for the group.
         </p>
         <p>
           Over the past six years, I've shipped consumer products at scale across France, the UK, and Canada. From the redesign of the Radio France mobile app to the digital subscription launch for Le Journal du Dimanche and Paris Match, my work is grounded in user-centered discovery, data-driven decisions, and tight cross-functional execution.
@@ -797,7 +802,7 @@
 
       <div class="stat-block reveal" data-delay="3">
         <div class="stat">
-          <div class="number">103M<span class="unit">streams</span></div>
+          <div class="number">100M+<span class="unit">streams</span></div>
           <div class="desc">Monthly · all-time record</div>
         </div>
         <div class="stat">
@@ -1014,6 +1019,13 @@
           <div class="value">+33 6 64 72 95 08</div>
         </span>
         <span>→</span>
+      </a>
+      <a href="Resume_Jimmy_Temporao_EN.pdf" class="reveal" data-delay="4" download>
+        <span>
+          <div class="label">Resume</div>
+          <div class="value">Download CV</div>
+        </span>
+        <span>↓</span>
       </a>
     </div>
 
